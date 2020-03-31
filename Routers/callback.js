@@ -23,18 +23,18 @@ const readDataById = (req, res, next) => {
 };
 
 const postData = (req, res, next) => {
-    let insertQuery = 'INSERT INTO user SET = ?';
+    let insertQuery = 'INSERT INTO user SET ?';
 
     let postData = {
-        username: 'khan',
-        email: 'khan@gamil.com',
-        password: 'khan',
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password,
     };
 
     db.query(insertQuery, postData, (err, result) => {
         if (!err) {
-            res.json(result);
-            console.log(`data is inserted ${result}`);
+            const id = result.insertId;
+            res.json(`data is inserted by : ${id}`);
         } else {
             console.log(`error is : ${err}`);
             res.send(err);
@@ -43,13 +43,31 @@ const postData = (req, res, next) => {
     });
 };
 
+const updateData = (req, res, next) => {
+    let updateQuery =
+        'UPDATE user set username =? , email =? , password = ? where Id =?';
+    let updated = [
+        req.body.username,
+        req.body.email,
+        req.body.password,
+        req.params.id,
+    ];
+    db.query(updateQuery, updated, (err, row) => {
+        if (!err) {
+            res.send('update is successfully ' + updated.name + updated.email);
+        } else {
+            res.send(err);
+        }
+    });
+};
+
 const deleteData = (req, res, next) => {
     let id = req.params.id;
-    deleteQuery = 'delete * from user where id= ?';
+    deleteQuery = 'delete  from user where Id = ?';
     db.query(deleteQuery, id, (err, result) => {
         if (!err) {
-            res.send(`data is delete ${result}`);
-            console.log(result);
+            res.send(`data is delete on ID of : ${id}`);
+            console.log(id);
         } else {
             res.send(err);
             console.log(err);
@@ -63,4 +81,5 @@ module.exports = {
     readDataById,
     postData,
     deleteData,
+    updateData,
 };

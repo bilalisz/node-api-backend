@@ -15,18 +15,3 @@ app.use('/', router);
 app.listen(4001, () => {
     console.log('server is running');
 });
-
-//dome data
-
-// app.post('/user/insert', function(req, res) {
-//     db.query(
-//         "INSERT INTO `user`(`Id`, `username`, `email`, `password`) VALUES ('null','khan','khan@g','khan')",
-//         function(err, result) {
-//             if (err) {
-//                 res.send(err);
-//             } else {
-//                 res.send(result);
-//             }
-//         }
-//     );
-// });
